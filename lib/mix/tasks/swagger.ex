@@ -256,7 +256,7 @@ defmodule Mix.Tasks.Swagger do
       if :erlang.function_exported(module, :changeset, 2) do
         module_struct = module.changeset(module.__struct__, %{})
         required = required_fields module_struct.errors
-        module_json = Map.put(module_json, "required", required)
+        if Dict.size(required) > 0, do: module_json = Map.put(module_json, "required", required)
       end
 
       def_json = Map.put(def_json, "#{inspect module}", module_json)
